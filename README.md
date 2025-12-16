@@ -1,41 +1,81 @@
-# DigiLocker-style Information Management System
+# 🔐 SafeLynx – Secure Information Management System
 
-Secure document vault built with React + Tailwind (frontend) and Node.js + Express + MongoDB (backend). Features uploading PDFs/images, inline preview, sharing to other users, activity summaries, and JWT authentication.
+SafeLynx is a modern **Information Management System (IMS)** that allows users to
+securely upload, organize, search, share, and manage documents with **AI-powered summaries**.
+The platform is built using the **MERN stack** and focuses on security, usability,
+and scalability.
 
-## Project structure
-- `backend/` – Express API, MongoDB models, JWT auth, uploads folder (disk storage; swap for S3/Cloudinary easily in `middleware/upload.js`).
-- `frontend/` – React + Vite app with Tailwind UI, dashboard, upload flow, viewer, and sharing.
+---
 
-## Backend setup
-1) `cd backend`
-2) `npm install`
-3) Copy `env.example` to `.env` and set values (Mongo URI, JWT secret, client URL).
-4) `npm run dev` (or `npm start`) – serves on port 5000 by default.
+## 🚀 Features
 
-## Frontend setup
-1) `cd frontend`
-2) `npm install`
-3) Create `.env` with `VITE_API_URL=http://localhost:5000/api`
-4) `npm run dev` – Vite dev server on port 5173.
+### 📁 Document Management
+- Upload Personal, Professional & Government documents
+- Multiple file upload support
+- File rename, download, delete & preview
+- Category-wise document organization
+- File size display on dashboard
+- Shared documents management
 
-## Core API endpoints
-- `POST /api/auth/register` – create account
-- `POST /api/auth/login` – JWT login
-- `POST /api/auth/forgot-password` – generate reset token (returned in response)
-- `POST /api/auth/reset-password` – reset using token
-- `GET /api/auth/me` – current user
-- `POST /api/documents/upload` – upload file (field `file`) with `title`, `category`, `tags`
-- `GET /api/documents` – list own docs (query: `category`, `search`)
-- `GET /api/documents/shared` – docs shared with user
-- `GET /api/documents/:id` – fetch by id
-- `PUT /api/documents/:id` – update title/category/tags
-- `DELETE /api/documents/:id` – remove (owner only)
-- `POST /api/documents/:id/share` – share with another registered user via email
-- `GET /api/documents/activity` – activity summary
+### 🔍 Smart Search
+- Search documents by name, type, or category
+- Auto-redirect to relevant document section
+- Live search with result count
 
-## Notes
-- Uploads are stored in `backend/uploads` and served at `/uploads/*`.
-- Password reset emails are not sent; the token is returned for testing.
-- CORS origin reads `CLIENT_URL` (comma-separated allowed origins).
-- Tailwind styles live in `frontend/src/index.css`; main layout is in `App.jsx`.
+### 🤝 File Sharing
+- Share documents with other users
+- Shared files appear in both category and “Shared with Me”
+- Original document category preserved
 
+### 🧠 AI-Powered Document Summary
+- AI-generated summaries for PDFs & images
+- OCR support for scanned PDFs & images
+- Chunked summarization for large documents
+- Cached summaries for performance
+
+### 📊 Storage Management
+- Drive-style storage indicator in sidebar
+- Total storage limit (Free tier: 3GB)
+- Used & remaining storage calculation
+- Storage includes all document types
+
+### 👤 Authentication & Security
+- User authentication with JWT
+- Role-based access (Admin/User)
+- Secure API routes
+- Password hashing
+
+### 🎨 UI/UX
+- Clean & responsive design
+- Light & Dark mode support
+- Smooth animations
+- Mobile-friendly layout
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+- React.js
+- Tailwind CSS
+- React Router
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB & Mongoose
+- JWT Authentication
+
+### AI & OCR
+- Gemini / AI API for summarization
+- pdf-parse for PDF text extraction
+- Tesseract.js for OCR (images & scanned PDFs)
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1️⃣ Clone Repository
+```bash
+git clone https://github.com/your-username/SafeLynx-Information-Management-System.git
+cd SafeLynx-Information-Management-System
