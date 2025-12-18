@@ -13,6 +13,7 @@ const documentSchema = new mongoose.Schema(
     uploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     fileUrl: { type: String, required: true },
     mimeType: { type: String }, // Stores MIME type (e.g., 'application/pdf', 'image/png')
+    resourceType: { type: String, default: 'auto' }, // Stores Cloudinary resource type ('image', 'raw')
     fileSize: { type: Number, required: true, default: 0 },
     tags: [{ type: String }],
     sharedWith: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],

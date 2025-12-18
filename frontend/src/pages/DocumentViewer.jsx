@@ -19,6 +19,12 @@ const DocumentViewer = () => {
         const backendUrl = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || '';
         document.fileUrl = `${backendUrl}${document.fileUrl.startsWith('/') ? '' : '/'}${document.fileUrl}`;
       }
+
+      // Fix 401 Errors: Ensure PDFs use /raw/upload/ instead of /image/upload/
+      const isPdfInfo = document.mimeType === 'application/pdf' || (document.fileUrl && document.fileUrl.toLowerCase().endsWith('.pdf'));
+      if (isPdfInfo && document.fileUrl && document.fileUrl.includes('/image/upload/')) {
+        document.fileUrl = document.fileUrl.replace('/image/upload/', '/raw/upload/');
+      }
       setDoc(document);
     } catch (err) {
       setError(err.response?.data?.message || 'Unable to load document');

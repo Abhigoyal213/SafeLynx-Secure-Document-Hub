@@ -7,7 +7,11 @@ const storage = new CloudinaryStorage({
   params: async (req, file) => {
     return {
       folder: "safelynx",
-      resource_type: "auto",
+      folder: "safelynx",
+      resource_type: file.mimetype.startsWith('image/') ? 'image' : 'raw',
+      public_id: file.originalname.replace(/\.[^/.]+$/, "") + "_" + Date.now(), // Generate unique ID, preserve logic
+      // Keep extension for raw files to ensure they download correctly
+      format: file.mimetype.startsWith('image/') ? undefined : file.originalname.split('.').pop()
     };
   },
 });

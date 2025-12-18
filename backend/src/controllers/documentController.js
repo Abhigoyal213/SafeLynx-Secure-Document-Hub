@@ -154,6 +154,7 @@ const uploadDocument = async (req, res) => {
         uploadedBy: req.user._id,
         fileUrl: fileUrl,
         mimeType: file.mimetype,
+        resourceType: file.mimetype.startsWith('image/') ? 'image' : 'raw',
         fileSize: file.size,
         tags: tagList,
         summaryStatus: 'pending'
