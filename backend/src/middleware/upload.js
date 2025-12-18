@@ -13,7 +13,7 @@ const storage = new CloudinaryStorage({
       return {
         folder: "safelynx",
         resource_type: "image",
-
+        format: "pdf",
         use_filename: true,
         unique_filename: true,
         access_control: [{ access_type: "anonymous" }],
