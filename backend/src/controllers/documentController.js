@@ -153,12 +153,6 @@ const uploadDocument = async (req, res) => {
         fileUrl = `${backendUrl}/uploads/${file.filename}`;
       }
 
-      // Enforce correct Cloudinary URL structure for raw files
-      const resourceType = file.mimetype.startsWith('image/') ? 'image' : 'raw';
-      if (resourceType === 'raw' && fileUrl.includes('/image/upload/')) {
-        fileUrl = fileUrl.replace('/image/upload/', '/raw/upload/');
-      }
-
       const doc = await Document.create({
         title: finalTitle,
         category,
