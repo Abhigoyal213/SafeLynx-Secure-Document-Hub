@@ -62,8 +62,14 @@ const triggerAiSummary = async (docId) => {
       // Copy to temp to be consistent
       fs.copyFileSync(localPath, tempPath);
     } else {
+      let downloadUrl = doc.fileUrl;
+      // Fix potential 401 for PDFs accessed via incorrect image/upload URL
+      if ((downloadUrl.endsWith('.pdf') || doc.mimeType === 'application/pdf') && downloadUrl.includes('/image/upload/')) {
+        downloadUrl = downloadUrl.replace('/image/upload/', '/raw/upload/');
+      }
+
       const response = await axios({
-        url: doc.fileUrl,
+        url: downloadUrl,
         method: 'GET',
         responseType: 'stream'
       });
@@ -145,6 +151,12 @@ const uploadDocument = async (req, res) => {
         // Fallback for local storage if somehow used
         const backendUrl = process.env.BACKEND_URL || `${req.protocol}://${req.get('host')}`;
         fileUrl = `${backendUrl}/uploads/${file.filename}`;
+      }
+
+      // Enforce correct Cloudinary URL structure for raw files
+      const resourceType = file.mimetype.startsWith('image/') ? 'image' : 'raw';
+      if (resourceType === 'raw' && fileUrl.includes('/image/upload/')) {
+        fileUrl = fileUrl.replace('/image/upload/', '/raw/upload/');
       }
 
       const doc = await Document.create({
