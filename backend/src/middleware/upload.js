@@ -6,12 +6,20 @@ const cloudinary = require("../config/cloudinary");
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (req, file) => {
+    const isPdf = file.mimetype === 'application/pdf';
     const isImage = file.mimetype.startsWith('image/');
     const nameWithoutExt = file.originalname.replace(/\.[^/.]+$/, "");
     const timestamp = Date.now();
     const uniqueName = `${nameWithoutExt}_${timestamp}`;
 
-    if (isImage) {
+    if (isPdf) {
+      return {
+        folder: "safelynx",
+        resource_type: "image",
+        format: "pdf", // Explicitly set format for PDFs
+        public_id: uniqueName,
+      };
+    } else if (isImage) {
       return {
         folder: "safelynx",
         resource_type: "image",

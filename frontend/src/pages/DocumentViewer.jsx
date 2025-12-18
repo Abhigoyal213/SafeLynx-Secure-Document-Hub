@@ -19,12 +19,6 @@ const DocumentViewer = () => {
         const backendUrl = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || '';
         document.fileUrl = `${backendUrl}${document.fileUrl.startsWith('/') ? '' : '/'}${document.fileUrl}`;
       }
-
-      // Fix 401 Errors: Ensure PDFs use /raw/upload/ instead of /image/upload/
-      const isPdfInfo = document.mimeType === 'application/pdf' || (document.fileUrl && document.fileUrl.toLowerCase().endsWith('.pdf'));
-      if (isPdfInfo && document.fileUrl && document.fileUrl.includes('/image/upload/')) {
-        document.fileUrl = document.fileUrl.replace('/image/upload/', '/raw/upload/');
-      }
       setDoc(document);
     } catch (err) {
       setError(err.response?.data?.message || 'Unable to load document');
@@ -122,10 +116,11 @@ const DocumentViewer = () => {
       case 'pdf':
         return (
           <iframe
-            title={doc.title}
             src={doc.fileUrl}
-            className="w-full h-[800px] rounded-lg border border-slate-200 dark:border-slate-700 bg-white"
-            style={{ width: '100%', height: '800px' }}
+            width="100%"
+            height="100%"
+            style={{ border: "none", minHeight: "800px" }}
+            title="PDF Viewer"
           />
         );
       case 'office':
