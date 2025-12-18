@@ -6,34 +6,15 @@ const cloudinary = require("../config/cloudinary");
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (req, file) => {
-    const isPdf = file.mimetype === 'application/pdf';
-    const isImage = file.mimetype.startsWith('image/');
-    const nameWithoutExt = file.originalname.replace(/\.[^/.]+$/, "");
-    const timestamp = Date.now();
-    const uniqueName = `${nameWithoutExt}_${timestamp}`;
+    const isPDF = file.mimetype === "application/pdf";
 
-    if (isPdf) {
-      return {
-        folder: "safelynx",
-        resource_type: "image",
-        format: "pdf", // Explicitly set format for PDFs
-        public_id: uniqueName,
-      };
-    } else if (isImage) {
-      return {
-        folder: "safelynx",
-        resource_type: "image",
-        public_id: uniqueName,
-      };
-    } else {
-      return {
-        folder: "safelynx",
-        resource_type: "raw",
-        public_id: uniqueName + path.extname(file.originalname), // Explicit extension for Raw files
-        use_filename: true,
-        unique_filename: false
-      };
-    }
+    return {
+      folder: "safelynx",
+      resource_type: "image",
+      format: isPDF ? "pdf" : undefined,
+      use_filename: true,
+      unique_filename: true,
+    };
   },
 });
 

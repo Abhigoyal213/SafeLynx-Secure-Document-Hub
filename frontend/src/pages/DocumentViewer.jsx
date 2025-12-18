@@ -110,67 +110,34 @@ const DocumentViewer = () => {
   const renderDocumentPreview = () => {
     if (!doc?.fileUrl) return null;
 
-    const fileType = getFileType(doc);
+    const isPDF =
+      doc.mimeType === "application/pdf" ||
+      doc.fileUrl.endsWith(".pdf");
 
-    switch (fileType) {
-      case 'pdf':
-        return (
-          <iframe
-            src={doc.fileUrl}
-            width="100%"
-            height="100%"
-            style={{ border: "none", minHeight: "800px" }}
-            title="PDF Viewer"
-          />
-        );
-      case 'office':
-        return (
-          <iframe
-            title={doc.title}
-            src={`https://docs.google.com/gview?url=${encodeURIComponent(doc.fileUrl)}&embedded=true`}
-            className="w-full h-[800px] rounded-lg border border-slate-200 dark:border-slate-700 bg-white"
-            style={{ width: '100%', height: '800px' }}
-          />
-        );
-      case 'image':
-        return (
-          <div className="flex items-center justify-center min-h-[500px] bg-slate-50 dark:bg-slate-900/50 rounded-lg border border-slate-200 dark:border-slate-700 p-4">
-            <img
-              src={doc.fileUrl}
-              alt={doc.title}
-              className="max-w-full max-h-[800px] object-contain rounded-lg shadow-sm"
-              onError={(e) => {
-                // e.target.style.display = 'none'; // Don't hide, show error
-                setError('Failed to load image preview');
-              }}
-            />
-          </div>
-        );
-      default:
-        // 'other' or unknown types
-        return (
-          <div className="flex flex-col items-center justify-center min-h-[500px] bg-slate-50 dark:bg-slate-900/50 rounded-lg border border-slate-200 dark:border-slate-700 p-8 text-center space-y-4">
-            <div className="w-16 h-16 bg-slate-200 dark:bg-slate-800 rounded-full flex items-center justify-center text-slate-400">
-              <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-lg font-medium text-slate-900 dark:text-white">Preview not available</p>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">This file type cannot be previewed directly.</p>
-            </div>
-            <a
-              href={doc.fileUrl}
-              target="_blank"
-              rel="noreferrer"
-              download
-              className="btn btn-primary px-6 py-2 rounded-full"
-            >
-              Download File
-            </a>
-          </div>
-        );
+    if (isPDF) {
+      return (
+        <iframe
+          src={doc.fileUrl}
+          width="100%"
+          height="100vh"
+          style={{ border: "none", minHeight: "800px" }}
+          title="PDF Viewer"
+        />
+      );
     }
+
+    return (
+      <div className="flex items-center justify-center min-h-[500px] bg-slate-50 dark:bg-slate-900/50 rounded-lg border border-slate-200 dark:border-slate-700 p-4">
+        <img
+          src={doc.fileUrl}
+          alt={doc.title}
+          className="max-w-full max-h-[800px] object-contain rounded-lg shadow-sm"
+          onError={(e) => {
+            setError('Failed to load image preview');
+          }}
+        />
+      </div>
+    );
   };
 
   return (
