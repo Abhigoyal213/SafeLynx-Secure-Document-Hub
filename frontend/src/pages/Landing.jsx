@@ -63,8 +63,24 @@ const Landing = () => {
 
       {/* Hero Section */}
       <section className="relative pt-20 pb-32 lg:pt-32 lg:pb-40 overflow-hidden">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 pointer-events-none">
+        {/* Video Background with Overlay */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto -translate-x-1/2 -translate-y-1/2 object-cover"
+          >
+            <source src="/videos/background.mp4" type="video/mp4" />
+          </video>
+          {/* Adaptive Overlay for accessibility and theme support */}
+          <div className="absolute inset-0 bg-white/30 dark:bg-black/60 backdrop-blur-[2px]"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/20 to-white/90 dark:from-slate-900/90 dark:via-slate-900/20 dark:to-slate-900/90"></div>
+        </div>
+
+        {/* Animated Background Elements - Reduced opacity for subtle blend */}
+        <div className="absolute inset-0 pointer-events-none z-0 opacity-50">
           {/* Top Right Blob */}
           <motion.div
             animate={{
@@ -96,9 +112,6 @@ const Landing = () => {
             }}
             className="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-[100px] dark:from-purple-900/40 dark:to-pink-900/40"
           />
-
-          {/* Center Subtle Glow */}
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.05)_0%,transparent_70%)] dark:bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.1)_0%,transparent_70%)]" />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
@@ -142,7 +155,7 @@ const Landing = () => {
             </motion.p>
 
             {/* Buttons */}
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-5 w-full justify-center px-4">
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-5 w-full justify-center px-4 mb-16">
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.97 }}
@@ -172,6 +185,9 @@ const Landing = () => {
                 </Link>
               </motion.div>
             </motion.div>
+
+
+
           </motion.div>
         </div>
 
