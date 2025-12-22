@@ -4,7 +4,7 @@ import axios from 'axios';
 // If VITE_API_BASE_URL is "https://...app", we append "/api"
 // If it already has "/api", we keep it.
 const getBaseUrl = () => {
-  const envUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+  const envUrl = import.meta.env.VITE_API_BASE_URL || 'https://safelynx.onrender.com';
   // Remove trailing slash if present
   const cleanUrl = envUrl.replace(/\/$/, '');
   // Append /api if not present
